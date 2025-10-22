@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+@theme {
+  --color-primary: #7f22fe;
+  --color-primaryDark: #4d179a;
+  --color-primaryLight: #a684ff;
+  --color-secondary: #d2a936;
+  --color-secondaryDark: #957b27;
+  --color-secondaryLight: #fff4d3;
+  --color-text: #8c8c8c;
+}
+
+@layer main {
+  .input {
+    @apply p-1 px-2 border border-secondary rounded shadow-md;
+  }
+}
