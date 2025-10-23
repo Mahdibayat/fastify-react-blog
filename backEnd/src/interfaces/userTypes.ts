@@ -6,6 +6,7 @@ import {
   Selectable,
   Updateable,
 } from "kysely";
+import { IUserRoles } from "../utils/types/interfaces.js";
 
 export interface UserTable {
   id: Generated<number>;
@@ -13,6 +14,7 @@ export interface UserTable {
   surname: string;
   mobile: string;
   password: string;
+  role: IUserRoles;
   created_at: ColumnType<Date, string | undefined, never>;
   update_at: ColumnType<Date, string | undefined, never>;
 }

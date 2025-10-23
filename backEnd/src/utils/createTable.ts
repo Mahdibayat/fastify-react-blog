@@ -9,6 +9,7 @@ export default async function createTable(table: "users") {
       .addColumn("name", "text", (col) => col.notNull())
       .addColumn("surname", "text", (col) => col.notNull())
       .addColumn("mobile", "text", (col) => col.notNull().unique())
+      .addColumn("role", "text", (col) => col.notNull())
       .addColumn("password", "text", (col) => col.notNull())
       .addColumn("created_at", "text", (col) =>
         col.defaultTo(new Date().toISOString())

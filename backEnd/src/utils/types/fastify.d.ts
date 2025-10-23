@@ -1,5 +1,6 @@
 import "@fastify/jwt";
 import "fastify";
+import { IUser, IUserRoles } from "./interfaces.ts";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -7,10 +8,9 @@ declare module "fastify" {
   }
 }
 
-
 declare module "@fastify/jwt" {
   interface FastifyJWT {
-    payload: { id: number }; // داده‌ای که داخل توکن قرار می‌دی
-    user: { id: number };    // داده‌ای که بعد از verify به req.user اضافه می‌شه
+    payload: IUser; // داده‌ای که داخل توکن قرار می‌دی
+    user: IUser; // داده‌ای که بعد از verify به req.user اضافه می‌شه
   }
 }

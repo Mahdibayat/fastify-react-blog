@@ -16,9 +16,17 @@ export default function MainLayout() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }).then((res) => res.json());
-
-      setUserInfo(res.user);
+      }).then((res) => {
+        const status = res.status;
+        if (status === 401) {
+          setUserInfo(null);
+          localStorage.removeItem("auth");
+          navigate("/auth/login");
+          return;
+        }
+        return res.json();
+      });
+      if (res.user) setUserInfo(res.user);
     } catch (error) {
       console.error({ error });
     }

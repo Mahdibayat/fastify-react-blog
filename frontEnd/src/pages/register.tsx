@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type z from "zod";
 import { registerSchema } from "../utils/schemas/registerSchema";
 import { appEnv } from "../utils/constants";
 
 type IForm = z.infer<typeof registerSchema>;
 export default function Register() {
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
@@ -22,7 +23,7 @@ export default function Register() {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
-      console.log({ res });
+      navigate(`/auth/login?mobile=${res.user.mobile}`);
     } catch (error) {
       console.error({ error });
     }
@@ -84,12 +85,12 @@ export default function Register() {
           </span>
         </label>
 
-          <button
-            className="p-2 px-3 bg-primary text-white rounded"
-            type="submit"
-          >
-            ثبت نام
-          </button>
+        <button
+          className="p-2 px-3 bg-primary text-white rounded"
+          type="submit"
+        >
+          ثبت نام
+        </button>
       </form>
 
       <Link to={"/auth/login"}>ورود به حساب کاربری</Link>

@@ -1,13 +1,12 @@
-import fastify from "fastify";
 import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
-import auth from "@fastify/auth";
+import fastify from "fastify";
+import fastifyGuard from "fastify-guard";
 import { authRoutes } from "./routes/auth.js";
-import { db } from "./db.js";
-import createTable from "./utils/createTable.js";
 import userRoutes from "./routes/user.js";
+import createTable from "./utils/createTable.js";
 
-const app = fastify();
+const app = fastify({ logger: true });
 
 // plugins
 await app.register(cors, {
@@ -17,6 +16,11 @@ await app.register(cors, {
 });
 
 app.register(jwt, { secret: "supersecret" });
+
+app.register(fastifyGuard.default, {
+  requestProperty: "user", // یعنی req.user نقش رو داره
+  roleProperty: "role", // یعنی user.role چک میشه
+});
 
 // decorators
 app.decorate("authenticate", async function (req, reply) {
@@ -30,7 +34,7 @@ app.decorate("authenticate", async function (req, reply) {
 await app.register(
   async (api) => {
     await api.register(authRoutes, { prefix: "/auth" });
-    await api.register(userRoutes, {prefix: "/user"})
+    await api.register(userRoutes, { prefix: "/user" });
   },
 
   { prefix: "/api" }

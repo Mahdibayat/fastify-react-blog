@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 export async function authRoutes(app: FastifyInstance) {
   app.post("/register", async (req, reply) => {
     const result = registerSchema.safeParse(req.body);
-
+    debugger;
     if (!result.success) {
       return reply.status(400).send({
         message: "Validation failed",
@@ -38,6 +38,7 @@ export async function authRoutes(app: FastifyInstance) {
         surname: body.surname,
         mobile: body.mobile,
         password: hashed,
+        role: "author",
       })
       .returningAll()
       .executeTakeFirst();
@@ -65,7 +66,16 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     // ✅ ساخت JWT Token
-    const token = app.jwt.sign({ id: user.id }, { expiresIn: "1d" });
+    const token = app.jwt.sign(
+      {
+        id: user.id,
+        mobile: user.mobile,
+        name: user.name,
+        surname: user.surname,
+        role: user.role,
+      },
+      { expiresIn: "1d" }
+    );
 
     return reply.send({ message: "Login successful", token });
   });

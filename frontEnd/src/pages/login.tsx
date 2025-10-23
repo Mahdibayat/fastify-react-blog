@@ -1,18 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "../utils/schemas/loginSchema";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { appEnv } from "../utils/constants";
+import type z from "zod";
 
+type IForm = z.infer<typeof loginSchema>;
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({ resolver: zodResolver(loginSchema) });
+  } = useForm<IForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      mobile: searchParams?.get("mobile") || "",
+    },
+  });
 
-  async function submit(body: any) {
+  async function submit(body: IForm) {
     try {
       const res = await fetch(`${appEnv.baseUrl}auth/login`, {
         method: "POST",
@@ -21,7 +29,6 @@ export default function Login() {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json());
-      console.log({ res });
       if (res.token) {
         localStorage.setItem("auth", res.token);
         navigate("/");
