@@ -14,3 +14,12 @@ declare module "@fastify/jwt" {
     user: IUser; // داده‌ای که بعد از verify به req.user اضافه می‌شه
   }
 }
+
+declare module "fastify" {
+  interface FastifyInstance {
+    config: {
+      PORT: string;
+      JWT_SECRET: string;
+    };
+  }
+}
