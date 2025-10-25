@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 export async function authRoutes(app: FastifyInstance) {
   app.post("/register", async (req, reply) => {
     const result = registerSchema.safeParse(req.body);
-    debugger;
     if (!result.success) {
       return reply.status(400).send({
         message: "Validation failed",

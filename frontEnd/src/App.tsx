@@ -4,6 +4,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import MainLayout from "./layouts/mainLayout";
 import Dashboard from "./pages/dashboard";
+import UserManagement from "./pages/userManagement";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
 
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Dashboard />} />
+
+        <Route path="/user-management" element={<UserManagement />} />
       </Route>
 
       <Route

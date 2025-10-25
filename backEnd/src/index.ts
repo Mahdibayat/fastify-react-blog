@@ -42,7 +42,7 @@ app.decorate("authenticate", async function (req, reply) {
   try {
     await req.jwtVerify(); // توکن رو بررسی می‌کنه
   } catch (err) {
-    reply.code(401).send({ message: "Unauthorized" });
+    reply.code(401).send({ message: "کاربر اعتبارسنجی نشده است" });
   }
 });
 

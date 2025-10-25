@@ -32,6 +32,10 @@ export default function MainLayout() {
     }
   }
 
+  function handleLogout() {
+    localStorage.removeItem("auth");
+  }
+
   useEffect(() => {
     const auth = localStorage.getItem("auth");
     if (auth) {
@@ -42,20 +46,28 @@ export default function MainLayout() {
   }, []);
   return (
     <UserContext.Provider value={userInfo}>
-      <div>
-        <header>
+      <div className="flex flex-col">
+        <header className="bg-primaryDark text-white h-[70px] p-2">
           <p>
             خوش آمدید : {userInfo?.name} {userInfo?.surname}
           </p>
         </header>
-        <aside>
-          <Link to={"/auth/login"}>users</Link>
-          <button>logout</button>
-        </aside>
-        <main>
-          <Outlet />
-        </main>
-        <footer>
+        <div className="grid grid-cols-[170px_1fr] [height:calc(100vh-120px)]">
+          <aside className="bg-secondaryLight border-l p-2 flex flex-col gap-2">
+            <Link to={"/user-management"}>مدیریت کاربران</Link>
+            <Link
+              to={"/auth/login"}
+              onClick={handleLogout}
+              className="text-red-600"
+            >
+              خروج
+            </Link>
+          </aside>
+          <main className=" p-2">
+            <Outlet />
+          </main>
+        </div>
+        <footer className="bg-primaryDark text-white h-[50px] p-2">
           <h1>footer</h1>
         </footer>
       </div>
